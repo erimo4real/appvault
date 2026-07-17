@@ -17,5 +17,38 @@ services:
       timeout: 5s
       retries: 10
 
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: appvault-backend
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgresql://appvault:appvault@postgres:5432/appvault
+      JWT_SECRET: change-me-to-a-random-64-char-string
+      ENCRYPTION_KEY: change-me-to-another-random-64-char-string
+      CLIENT_ORIGIN: http://localhost:5173
+      COOKIE_NAME: appvault_token
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        VITE_API_URL: http://localhost:4000
+    container_name: appvault-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
 volumes:
   appvault_postgres:
