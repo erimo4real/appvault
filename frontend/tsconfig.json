@@ -14,10 +14,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "paths": {
-      "@appvault/shared": ["../shared/src/index.ts"]
-    }
+    "jsx": "react-jsx"
   },
   "include": ["src"]
 }

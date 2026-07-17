@@ -1,4 +1,4 @@
-import type { AppType } from "@appvault/shared";
+import type { AppType } from "../lib/shared.js";
 import { Box, Button, Card, CardContent, Grid, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../app/hooks.js";

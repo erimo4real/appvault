@@ -15,7 +15,7 @@ import type {
   TaskDto,
   UserDto,
   VaultEntryDto
-} from "@appvault/shared";
+} from "../lib/shared.js";
 
 const baseUrl = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
 

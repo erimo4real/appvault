@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import type { AppDto } from "@appvault/shared";
+import type { AppDto } from "../lib/shared.js";
 import {
   Box, Chip, InputAdornment, LinearProgress, Paper, Table, TableBody, TableCell,
   TableContainer, TableHead, TablePagination, TableRow, TextField, ToggleButton,

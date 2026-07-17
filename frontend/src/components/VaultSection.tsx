@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import type { VaultCategory, VaultEntryDto } from "@appvault/shared";
+import type { VaultCategory, VaultEntryDto } from "../lib/shared.js";
 import {
   useCreateVaultEntryMutation,
   useDeleteVaultEntryMutation,

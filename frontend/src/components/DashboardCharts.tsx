@@ -1,4 +1,4 @@
-import type { AppDto, DashboardAlert } from "@appvault/shared";
+import type { AppDto, DashboardAlert } from "../lib/shared.js";
 import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis, BarChart, Bar } from "recharts";
 

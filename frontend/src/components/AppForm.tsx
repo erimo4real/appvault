@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import type { AppDto, AppStatus, AppType } from "@appvault/shared";
+import type { AppDto, AppStatus, AppType } from "../lib/shared.js";
 
 interface Props {
   initial?: Partial<AppDto>;

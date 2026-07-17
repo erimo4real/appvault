@@ -11,7 +11,7 @@ import {
   useCommentsQuery, useDeleteAttachmentMutation, useDeleteCommentMutation,
   useDeleteTaskMutation, useUpdateTaskMutation, useUploadAttachmentMutation
 } from "../features/api.js";
-import type { TaskDto } from "@appvault/shared";
+import type { TaskDto } from "../lib/shared.js";
 
 type TaskWithMeta = TaskDto & { appName: string; appId: string; milestoneId: string; milestoneName: string };
 

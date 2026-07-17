@@ -1,4 +1,4 @@
-import type { AppDto } from "@appvault/shared";
+import type { AppDto } from "../lib/shared.js";
 import { Add, AssignmentLate, CloudDone, Paid, Widgets } from "@mui/icons-material";
 import {
   Box,

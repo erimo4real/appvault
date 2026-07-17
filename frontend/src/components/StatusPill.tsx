@@ -1,4 +1,4 @@
-import type { AppStatus } from "@appvault/shared";
+import type { AppStatus } from "../lib/shared.js";
 import { Chip } from "@mui/material";
 
 const colors: Record<AppStatus, { bg: string; color: string }> = {

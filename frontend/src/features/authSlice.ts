@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { UserDto } from "@appvault/shared";
+import type { UserDto } from "../lib/shared.js";
 
 interface AuthState {
   user: UserDto | null;
