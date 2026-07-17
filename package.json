@@ -2,19 +2,15 @@
   "name": "appvault",
   "version": "0.1.0",
   "private": true,
-  "workspaces": [
-    "backend",
-    "frontend",
-    "shared"
-  ],
   "scripts": {
-    "dev:api": "npm run dev -w backend",
-    "dev:web": "npm run dev -w frontend",
-    "build": "npm run build -w shared && npm run build -w backend && npm run build -w frontend",
-    "db:migrate": "npm run prisma:migrate -w backend",
-    "db:studio": "npm run prisma:studio -w backend",
-    "db:seed": "npm run seed -w backend",
-    "test": "npm run test -w backend"
+    "dev:api": "cd backend && npm run dev",
+    "dev:web": "cd frontend && npm run dev",
+    "build:api": "cd backend && npm run build",
+    "build:web": "cd frontend && npm run build",
+    "db:migrate": "cd backend && npx prisma migrate dev",
+    "db:studio": "cd backend && npx prisma studio",
+    "db:seed": "cd backend && npx prisma db seed",
+    "test": "cd backend && npm run test"
   },
   "devDependencies": {
     "vite-plugin-pwa": "^1.3.0"
