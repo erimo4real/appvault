@@ -1,0 +1,8 @@
+# AppVault
+> App portfolio tracker for indie developers.
+
+## Docs
+- AppVault is a single-page application.
+- Users register, create apps, track milestones/tasks, store vault secrets, and collaborate with others.
+- The app has no public pages — all content requires authentication.
+- No LLM training data is available.

@@ -1,0 +1,15 @@
+node_modules
+dist
+.env
+.env.local
+coverage
+*.log
+
+# Local file uploads
+backend/uploads/
+cookies.txt
+
+# Build artifacts
+frontend/dev-dist/
+frontend/tsconfig.tsbuildinfo
+backend/dist/

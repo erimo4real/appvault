@@ -1,0 +1,277 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AppType {
+  personal
+  client
+  saas
+}
+
+enum AppStatus {
+  idea
+  building
+  live
+  archived
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+enum ActivityAction {
+  app_created
+  status_changed
+  milestone_added
+  milestone_completed
+  task_added
+  task_completed
+  field_edited
+  app_archived
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  name         String?
+  avatarUrl    String?       @map("avatar_url")
+  passwordHash String?       @map("password_hash")
+  authProvider String        @default("password") @map("auth_provider")
+  providerId   String?       @map("provider_id")
+  tokenVersion Int           @default(0) @map("token_version")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  apps         App[]
+  activityLogs ActivityLog[]
+  vaultEntries VaultEntry[]
+  passwordResetTokens PasswordResetToken[]
+  comments     Comment[]
+  attachments  Attachment[]
+  notifications Notification[]
+  invitationsSent Invitation[] @relation("InvitationsSent")
+  collaborations Collaborator[]
+
+  @@map("users")
+}
+
+model PasswordResetToken {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  tokenHash String    @unique @map("token_hash")
+  expiresAt DateTime  @map("expires_at")
+  usedAt    DateTime? @map("used_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("password_reset_tokens")
+}
+
+model App {
+  id           String        @id @default(uuid())
+  userId       String        @map("user_id")
+  name         String
+  description  String?
+  type         AppType
+  status       AppStatus     @default(idea)
+  stack        String[]      @default([])
+  repoUrl      String?       @map("repo_url")
+  liveUrl      String?       @map("live_url")
+  clientName   String?       @map("client_name")
+  monthlyCost  Decimal?      @db.Decimal(10, 2) @map("monthly_cost")
+  renewalDate  DateTime?     @map("renewal_date")
+  notes        String?
+  archivedAt   DateTime?     @map("archived_at")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  milestones   Milestone[]
+  activityLogs ActivityLog[]
+  vaultEntries VaultEntry[]
+  invitations  Invitation[]
+  collaborators Collaborator[]
+  shareLinks   ShareLink[]
+
+  @@index([userId])
+  @@map("apps")
+}
+
+enum VaultCategory {
+  database
+  hosting
+  auth
+  storage
+  email
+  payment
+  analytics
+  domain
+  repository
+  other
+}
+
+model VaultEntry {
+  id              String        @id @default(uuid())
+  appId           String        @map("app_id")
+  userId          String        @map("user_id")
+  provider        String
+  category        VaultCategory
+  label           String
+  publicUrl       String?       @map("public_url")
+  dashboardUrl    String?       @map("dashboard_url")
+  username        String?
+  secretEncrypted String?       @map("secret_encrypted")
+  notes           String?
+  expiresAt       DateTime?     @map("expires_at")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+  app             App           @relation(fields: [appId], references: [id], onDelete: Cascade)
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([appId])
+  @@index([userId])
+  @@map("vault_entries")
+}
+
+model Milestone {
+  id           String    @id @default(uuid())
+  appId        String    @map("app_id")
+  title        String
+  dueDate      DateTime? @map("due_date")
+  completed    Boolean   @default(false)
+  completedAt  DateTime? @map("completed_at")
+  autoCreated  Boolean   @default(false) @map("auto_created")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  app          App       @relation(fields: [appId], references: [id], onDelete: Cascade)
+  tasks        Task[]
+
+  @@index([appId])
+  @@map("milestones")
+}
+
+model Task {
+  id          String      @id @default(uuid())
+  milestoneId String      @map("milestone_id")
+  title       String
+  description String?
+  dueDate     DateTime?   @map("due_date")
+  timeMinutes Int?        @map("time_minutes")
+  sortOrder   Int         @default(0) @map("sort_order")
+  status      TaskStatus  @default(TODO)
+  completedAt DateTime?   @map("completed_at")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  milestone   Milestone   @relation(fields: [milestoneId], references: [id], onDelete: Cascade)
+  comments    Comment[]
+  attachments Attachment[]
+
+  @@index([milestoneId])
+  @@map("tasks")
+}
+
+model ActivityLog {
+  id        String         @id @default(uuid())
+  appId     String         @map("app_id")
+  userId    String         @map("user_id")
+  action    ActivityAction
+  metadata  Json           @default("{}")
+  createdAt DateTime       @default(now()) @map("created_at")
+  app       App            @relation(fields: [appId], references: [id], onDelete: Cascade)
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([appId])
+  @@index([userId])
+  @@map("activity_log")
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  taskId    String   @map("task_id")
+  userId    String   @map("user_id")
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+  @@index([userId])
+  @@map("comments")
+}
+
+model Attachment {
+  id            String         @id @default(uuid())
+  taskId        String         @map("task_id")
+  userId        String         @map("user_id")
+  fileName      String         @map("file_name")
+  fileSize      Int            @map("file_size")
+  mimeType      String         @map("mime_type")
+  storageKey    String         @map("storage_key")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  task          Task           @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+  @@index([userId])
+  @@map("attachments")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  appId     String?  @map("app_id")
+  kind      String
+  title     String
+  body      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+  @@index([userId, createdAt])
+  @@map("notifications")
+}
+
+model Invitation {
+  id          String   @id @default(uuid())
+  appId       String   @map("app_id")
+  invitedById String   @map("invited_by_id")
+  invitedEmail String  @map("invited_email")
+  status      String   @default("pending")
+  createdAt   DateTime @default(now()) @map("created_at")
+  app         App      @relation(fields: [appId], references: [id], onDelete: Cascade)
+  invitedBy   User     @relation("InvitationsSent", fields: [invitedById], references: [id])
+
+  @@index([appId])
+  @@index([invitedEmail])
+  @@map("invitations")
+}
+
+model Collaborator {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  appId     String   @map("app_id")
+  role      String   @default("editor")
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  app       App      @relation(fields: [appId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, appId])
+  @@index([appId])
+  @@map("collaborators")
+}
+
+model ShareLink {
+  id        String    @id @default(uuid())
+  appId     String    @map("app_id")
+  token     String    @unique
+  expiresAt DateTime? @map("expires_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  app       App       @relation(fields: [appId], references: [id], onDelete: Cascade)
+
+  @@index([appId])
+  @@map("share_links")
+}
