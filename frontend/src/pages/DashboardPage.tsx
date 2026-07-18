@@ -47,7 +47,7 @@ export function DashboardPage() {
   const apps = useMemo(() => sortApps(appsData?.apps ?? [], sort), [appsData, sort]);
 
   const cards = [
-    { label: "Total Apps", value: dashboard?.metrics.totalApps ?? 0, icon: Widgets, color: "#1976d2", bg: "#e3f2fd" },
+    { label: "Total Apps", value: dashboard?.metrics.totalApps ?? 0, icon: Widgets, color: "#0f766e", bg: "#e3f2fd" },
     { label: "Live", value: dashboard?.metrics.liveApps ?? 0, icon: CloudDone, color: "#2e7d32", bg: "#e8f5e9" },
     { label: "Monthly Spend", value: `$${dashboard?.metrics.monthlySpend ?? 0}`, icon: Paid, color: "#ed6c02", bg: "#fff3e0" },
     { label: "Overdue Tasks", value: dashboard?.metrics.overdueTasks ?? 0, icon: AssignmentLate, color: "#d32f2f", bg: "#ffebee" }

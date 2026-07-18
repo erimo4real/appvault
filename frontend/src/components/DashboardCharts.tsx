@@ -4,7 +4,7 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis, BarCha
 
 const statusColors = {
   live: "#2e7d32",
-  building: "#1976d2",
+  building: "#0f766e",
   idea: "#90a4ae",
   archived: "#d32f2f"
 };
@@ -37,7 +37,7 @@ export function DashboardCharts({ apps, alerts }: { apps: AppDto[]; alerts: Dash
                   <XAxis dataKey="name" axisLine={false} tickLine={false} />
                   <YAxis axisLine={false} tickLine={false} />
                   <Tooltip />
-                  <Bar dataKey="spend" fill="#1976d2" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="spend" fill="#0f766e" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </Box>

@@ -14,7 +14,7 @@ function LoadingScreen() {
   }, [chars]);
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <span className="text-3xl font-bold tracking-widest" style={{ fontFamily: "Inter, sans-serif", color: "#1976d2" }}>
+      <span className="text-3xl font-bold tracking-widest" style={{ fontFamily: "Inter, sans-serif", color: "#0f766e" }}>
         {word.slice(0, chars)}
         <span className="animate-pulse" style={{ opacity: chars < word.length ? 1 : 0 }}>|</span>
       </span>

@@ -3,7 +3,7 @@ import { Chip } from "@mui/material";
 
 const colors: Record<AppStatus, { bg: string; color: string }> = {
   live: { bg: "#e8f5e9", color: "#2e7d32" },
-  building: { bg: "#e3f2fd", color: "#1976d2" },
+  building: { bg: "#e3f2fd", color: "#0f766e" },
   idea: { bg: "#eceff1", color: "#546e7a" },
   archived: { bg: "#ffebee", color: "#d32f2f" }
 };

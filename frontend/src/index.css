@@ -56,7 +56,7 @@ select {
 }
 
 .field:focus {
-  border-color: #1976d2;
+  border-color: #0f766e;
   box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.15);
 }
 

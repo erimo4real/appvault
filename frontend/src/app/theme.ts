@@ -23,11 +23,11 @@ const components = {
 export const lightTheme = createTheme({
   palette: {
     mode: "light",
-    primary: { main: "#1976d2" },
-    secondary: { main: "#26c6da" },
-    background: { default: "#f4f7fb", paper: "#ffffff" },
-    text: { primary: "#2a3547", secondary: "#5a6a85" },
-    divider: "rgba(42, 53, 71, 0.12)"
+    primary: { main: "#0f766e" },
+    secondary: { main: "#059669" },
+    background: { default: "#f8fafc", paper: "#ffffff" },
+    text: { primary: "#0f172a", secondary: "#475569" },
+    divider: "rgba(15, 23, 42, 0.1)"
   },
   shape: { borderRadius: 8 },
   typography: {
@@ -41,10 +41,10 @@ export const lightTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          border: "1px solid rgba(42, 53, 71, 0.08)",
-          boxShadow: "0 2px 10px rgba(42, 53, 71, 0.04)",
+          border: "1px solid rgba(15, 23, 42, 0.08)",
+          boxShadow: "0 2px 10px rgba(15, 23, 42, 0.04)",
           transition: "transform 0.2s ease, box-shadow 0.2s ease",
-          "&:hover": { transform: "translateY(-2px)", boxShadow: "0 4px 20px rgba(42, 53, 71, 0.1)" }
+          "&:hover": { transform: "translateY(-2px)", boxShadow: "0 4px 20px rgba(15, 23, 42, 0.1)" }
         }
       }
     },
@@ -58,11 +58,11 @@ export const lightTheme = createTheme({
 export const darkTheme = createTheme({
   palette: {
     mode: "dark",
-    primary: { main: "#90caf9" },
-    secondary: { main: "#80cbc4" },
-    background: { default: "#0f1419", paper: "#1a1f2e" },
-    text: { primary: "#e4e8ee", secondary: "#8892a4" },
-    divider: "rgba(228, 232, 238, 0.08)"
+    primary: { main: "#5eead4" },
+    secondary: { main: "#34d399" },
+    background: { default: "#0f172a", paper: "#1e293b" },
+    text: { primary: "#f1f5f9", secondary: "#94a3b8" },
+    divider: "rgba(241, 245, 249, 0.08)"
   },
   shape: { borderRadius: 8 },
   typography: {

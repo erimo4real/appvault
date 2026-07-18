@@ -23,7 +23,7 @@ export function MilestonesPage() {
       </Box>
       <Grid container spacing={3}>
         {[
-          ["Total Tasks", allTasks.length, Schedule, "#1976d2"],
+          ["Total Tasks", allTasks.length, Schedule, "#0f766e"],
           ["Completed", completed, CheckCircle, "#2e7d32"],
           ["Remaining", remaining, WarningAmber, "#d32f2f"]
         ].map(([label, value, Icon, color]) => (
