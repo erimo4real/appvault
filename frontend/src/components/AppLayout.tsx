@@ -147,10 +147,10 @@ export function AppLayout() {
               }
             }}
           >
-            <ListItemIcon sx={{ minWidth: collapsed || isMobile ? 0 : 42, color: "text.secondary" }}>
+            <ListItemIcon sx={{ minWidth: collapsed ? 0 : 42, color: "text.secondary" }}>
               <item.icon fontSize="small" />
             </ListItemIcon>
-            {!collapsed && !isMobile && <ListItemText primary={item.label} primaryTypographyProps={{ fontSize: 14, fontWeight: 600 }} />}
+            {(!collapsed || isMobile) && <ListItemText primary={item.label} primaryTypographyProps={{ fontSize: 14, fontWeight: 600 }} />}
           </ListItemButton>
         ))}
       </List>
@@ -160,12 +160,12 @@ export function AppLayout() {
           onClick={(e) => setUserMenuAnchor(e.currentTarget)}
           sx={{ borderRadius: 2, minHeight: 46 }}
         >
-          <ListItemIcon sx={{ minWidth: collapsed || isMobile ? 0 : 42, color: "text.secondary" }}>
+          <ListItemIcon sx={{ minWidth: collapsed ? 0 : 42, color: "text.secondary" }}>
             <Avatar sx={{ width: 28, height: 28, bgcolor: "secondary.main", fontSize: 14 }}>
               {user?.avatarUrl ? <img src={user.avatarUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <Person fontSize="small" />}
             </Avatar>
           </ListItemIcon>
-          {!collapsed && !isMobile && (
+          {(!collapsed || isMobile) && (
             <ListItemText primary={user?.name ?? user?.email} primaryTypographyProps={{ fontSize: 14, fontWeight: 600, noWrap: true }} />
           )}
         </ListItemButton>
