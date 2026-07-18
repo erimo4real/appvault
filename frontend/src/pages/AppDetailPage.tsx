@@ -15,6 +15,7 @@ import {
   useReorderTasksMutation, useRestoreAppMutation, useShareLinksQuery, useUpdateAppMutation,
   useUpdateMilestoneMutation, useUpdateTaskMutation
 } from "../features/api.js";
+import { useAppSelector } from "../app/hooks.js";
 import { AppForm } from "../components/AppForm.js";
 import { ErrorState } from "../components/ErrorState.js";
 import { VaultSection } from "../components/VaultSection.js";
@@ -22,6 +23,7 @@ import { VaultSection } from "../components/VaultSection.js";
 export function AppDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const user = useAppSelector((s) => s.auth.user);
   const { data, isLoading, error } = useAppQuery(id!, { skip: !id });
   const [tab, setTab] = useState(0);
   const [updateApp] = useUpdateAppMutation();
@@ -177,14 +179,19 @@ export function AppDetailPage() {
               Share
             </Button>
           </Stack>
-          {collabOpen && collabData && (
+          {collabOpen && (
             <Stack spacing={1}>
-              <Typography variant="subtitle2">Collaborators</Typography>
-              {collabData.collaborators.map((c) => (
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="body2">{user?.name ?? user?.email}</Typography>
+                  <Chip label="Owner" size="small" color="primary" sx={{ height: 20, fontSize: 11 }} />
+                </Box>
+              </Box>
+              {collabData?.collaborators.map((c) => (
                 <Box key={c.id} sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                   <Box sx={{ flex: 1 }}>
                     <Typography variant="body2">{c.user.name ?? c.user.email}</Typography>
-                    <Typography variant="caption" color="text.secondary">{c.role}</Typography>
+                    <Chip label={c.role === "editor" ? "Editor" : "Viewer"} size="small" variant="outlined" sx={{ height: 20, fontSize: 11 }} />
                   </Box>
                   <Button size="small" color="error" onClick={() => removeCollab({ appId: data.app.id, userId: c.userId })}>
                     Remove
