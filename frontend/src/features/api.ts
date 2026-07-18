@@ -284,8 +284,8 @@ export const api = createApi({
       query: () => ({ url: "/api/notifications/read-all", method: "PATCH" }),
       invalidatesTags: ["Notifications"]
     }),
-    inviteCollaborator: builder.mutation<{ invitation: InvitationDto }, { appId: string; email: string }>({
-      query: ({ appId, email }) => ({ url: `/api/apps/${appId}/invite`, method: "POST", body: { email } }),
+    inviteCollaborator: builder.mutation<{ invitation: InvitationDto }, { appId: string; email: string; role: string }>({
+      query: ({ appId, email, role }) => ({ url: `/api/apps/${appId}/invite`, method: "POST", body: { email, role } }),
       invalidatesTags: (_result, _error, { appId }) => [{ type: "App", id: appId }]
     }),
     invitations: builder.query<{ invitations: InvitationDto[] }, void>({

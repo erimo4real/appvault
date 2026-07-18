@@ -240,6 +240,7 @@ model Invitation {
   appId       String   @map("app_id")
   invitedById String   @map("invited_by_id")
   invitedEmail String  @map("invited_email")
+  role        String   @default("editor")
   status      String   @default("pending")
   createdAt   DateTime @default(now()) @map("created_at")
   app         App      @relation(fields: [appId], references: [id], onDelete: Cascade)

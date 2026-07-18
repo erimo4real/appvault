@@ -2,7 +2,8 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { Add, AttachFile, Check, Close, CommentOutlined, DeleteOutline, ExpandMore } from "@mui/icons-material";
 import {
   Accordion, AccordionSummary, AccordionDetails, Box, Button, Chip, Dialog, DialogActions, DialogContent,
-  DialogTitle, IconButton, LinearProgress, Stack, Tab, Tabs, TextField, Typography
+  DialogTitle, FormControl, IconButton, InputLabel, LinearProgress, MenuItem, Select, Stack, Tab, Tabs,
+  TextField, Typography
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -51,6 +52,7 @@ export function AppDetailPage() {
   const [expanded, setExpanded] = useState<string | false>(false);
   const [inviteOpen, setInviteOpen] = useState(false);
   const [inviteEmail, setInviteEmail] = useState("");
+  const [inviteRole, setInviteRole] = useState("editor");
   const [inviteResult, setInviteResult] = useState<string | null>(null);
   const [inviteError, setInviteError] = useState<string | null>(null);
   const [collabOpen, setCollabOpen] = useState(false);
@@ -355,6 +357,13 @@ export function AppDetailPage() {
         <DialogTitle>Invite collaborator</DialogTitle>
         <DialogContent>
           <TextField fullWidth autoFocus label="Email address" type="email" value={inviteEmail} onChange={(e) => setInviteEmail(e.target.value)} sx={{ mt: 1 }} />
+          <FormControl fullWidth sx={{ mt: 2 }}>
+            <InputLabel>Role</InputLabel>
+            <Select value={inviteRole} label="Role" onChange={(e) => setInviteRole(e.target.value)}>
+              <MenuItem value="editor">Editor — can edit app details and manage tasks</MenuItem>
+              <MenuItem value="viewer">Viewer — can only view app details</MenuItem>
+            </Select>
+          </FormControl>
           {inviteResult && <Typography variant="body2" color="success.main" sx={{ mt: 1 }}>{inviteResult}</Typography>}
           {inviteError && <Typography variant="body2" color="error" sx={{ mt: 1 }}>{inviteError}</Typography>}
         </DialogContent>
@@ -364,7 +373,7 @@ export function AppDetailPage() {
             setInviteResult(null);
             setInviteError(null);
             try {
-              await inviteCollab({ appId: id!, email: inviteEmail.trim() }).unwrap();
+              await inviteCollab({ appId: id!, email: inviteEmail.trim(), role: inviteRole }).unwrap();
               setInviteResult("Invitation sent.");
               setInviteEmail("");
             } catch (err: unknown) {

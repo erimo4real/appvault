@@ -168,6 +168,7 @@ export interface InvitationDto {
   appId: string;
   invitedById: string;
   invitedEmail: string;
+  role: string;
   status: string;
   createdAt: string;
   app?: { id: string; name: string };

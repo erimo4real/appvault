@@ -10,7 +10,8 @@ export const collaborationRouter = Router();
 collaborationRouter.use(requireAuth);
 
 const inviteSchema = z.object({
-  email: z.string().email().trim().toLowerCase()
+  email: z.string().email().trim().toLowerCase(),
+  role: z.enum(["editor", "viewer"]).default("editor")
 });
 
 collaborationRouter.post("/apps/:appId/invite", validateParam("appId"), validateBody(inviteSchema), async (req, res) => {
@@ -34,7 +35,8 @@ collaborationRouter.post("/apps/:appId/invite", validateParam("appId"), validate
     data: {
       appId: result.app.id,
       invitedById: req.user!.id,
-      invitedEmail: req.body.email
+      invitedEmail: req.body.email,
+      role: req.body.role
     }
   });
   if (invitedUser) {
@@ -69,7 +71,7 @@ collaborationRouter.patch("/invitations/:id/accept", validateParam("id"), async 
     return res.json({ ok: true });
   }
   await prisma.$transaction([
-    prisma.collaborator.create({ data: { userId: req.user!.id, appId: invitation.appId, role: "editor" } }),
+    prisma.collaborator.create({ data: { userId: req.user!.id, appId: invitation.appId, role: invitation.role } }),
     prisma.invitation.update({ where: { id: invitation.id }, data: { status: "accepted" } })
   ]);
   res.json({ ok: true });
